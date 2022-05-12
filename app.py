@@ -1,7 +1,7 @@
-import imp
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
+
 @app.route("/hello")
 def hello():
     return "<h1 style='color #ff0000; text-aligh: center;'>Hello from Flask!</h1>"
@@ -19,5 +19,14 @@ def test_page():
 @app.route("/")
 def home():
     return render_template("index.html")
+
+@app.route("/product", methods=["GET","POST"])
+def product_page():
+    pwd = ""
+    salt = ""
+    if request.method == "POST":
+        pwd = request.form.get("password")
+        salt = request.form.get("salt")
+    return render_template("product.html", p=pwd, s=salt)
 
 app.run(debug=True)
